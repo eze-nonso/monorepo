@@ -5,7 +5,9 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/movie-search",
         "index": "apps/movie-search/src/index.html",
@@ -15,10 +17,16 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/movie-search/src/favicon.ico",
-          "apps/movie-search/src/assets"
+          "apps/movie-search/src/assets",
+          "apps/movie-search/src/manifest.webmanifest"
         ],
-        "styles": ["apps/movie-search/src/styles.scss"],
-        "scripts": []
+        "styles": [
+          "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "apps/movie-search/src/styles.scss"
+        ],
+        "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/movie-search/ngsw-config.json"
       },
       "configurations": {
         "production": {
@@ -82,7 +90,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/movie-search"],
+      "outputs": [
+        "coverage/apps/movie-search"
+      ],
       "options": {
         "jestConfig": "apps/movie-search/jest.config.ts",
         "passWithNoTests": true

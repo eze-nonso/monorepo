@@ -1,0 +1,15 @@
+mat-card-title {
+  text-align: center;
+
+  &.title {
+    margin: 20px auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 30px;
+  }
+
+  [mat-card-image] {
+    height: 280px;
+  }
+}

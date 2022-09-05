@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'monorepo-root',
-  templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
-  title = 'movie-search';
+  title = 'Movie Search';
+
+  constructor(private _title: Title) {
+    this._title.setTitle(this.title);
+  }
 }

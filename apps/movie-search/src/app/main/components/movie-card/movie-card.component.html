@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-title-group>
+    <mat-card-title>
+      <img [alt]="title"
+           [src]="image"
+           mat-card-image>
+    </mat-card-title>
+    <mat-card-title [matTooltip]="title" class="title">
+      {{title | titlecase}}
+    </mat-card-title>
+  </mat-card-title-group>
+  <mat-card-content>
+    <p><strong>Year: </strong>{{year}}</p>
+    <p><strong>Director: </strong>{{type | titlecase}}</p>
+  </mat-card-content>
+  <mat-divider inset></mat-divider>
+  <mat-card-actions fxLayout fxLayoutAlign="space-between" fxLayoutGap="15px">
+    <button (click)="addFavorite.emit(null)" [disabled]="isFavorite" fxFlex mat-button>
+      <mat-icon color="warn">favorite</mat-icon>
+      Favorite
+    </button>
+    <button (click)="showDetail.emit(null)" color="primary" fxFlex mat-button>
+      <mat-icon color="accent">description</mat-icon>
+      Details
+    </button>
+  </mat-card-actions>
+</mat-card>
