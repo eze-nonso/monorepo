@@ -90,3 +90,7 @@
 <ng-template #loader>
   <mat-spinner color="accent" diameter="25"></mat-spinner>
 </ng-template>
+
+<button (click)="scrollToTop()" *ngIf="showScroller" @showHide class="to-top" mat-fab>
+  <mat-icon>vertical_align_top</mat-icon>
+</button>

@@ -4,6 +4,11 @@
   min-height: calc(100vh - 50px);
   width: 100%;
 
+  @media only screen and (max-width: 769px) {
+    padding: 30px 10px;
+    overflow: hidden;
+  }
+
   h1 {
     color: #FFF;
     font-weight: 700;
@@ -60,3 +65,12 @@
   margin-top: 20px;
 }
 
+.to-top {
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+
+  mat-icon {
+    scale: 1.25;
+  }
+}

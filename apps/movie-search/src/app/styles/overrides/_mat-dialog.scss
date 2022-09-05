@@ -4,3 +4,13 @@
     box-shadow: none;
   }
 }
+
+
+.detail-dialog {
+  @media only screen and (max-width: 769px) {
+    min-width: 95vw !important;
+    .mat-dialog-container {
+      width: 100%;
+    }
+  }
+}

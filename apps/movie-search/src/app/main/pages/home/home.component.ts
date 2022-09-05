@@ -18,18 +18,20 @@ import {Favorite} from "../../models/favorite.interface";
 import {StorageService} from "../../services/storage.service";
 import {MovieService} from "../../services/movie.service";
 import {SearchResult} from "../../models/search-result.interface";
-import {debounceTime, filter, of, Subject, switchMap, takeUntil, takeWhile, tap} from "rxjs";
+import {debounceTime, filter, fromEvent, of, Subject, switchMap, takeUntil, takeWhile, tap} from "rxjs";
 import {DetailDialogComponent} from "../../components/detail-dialog/detail-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {MovieDetail} from "../../models/movie-detail.interface";
+import {slideOutIn} from "../../animations/slide-out-in";
 
 @Component({
   selector: 'monorepo-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   providers: [{provide: MAT_DATE_FORMATS, useValue: YEAR_FORMAT}],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [slideOutIn]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public selectedYear?: string | number;
@@ -49,7 +51,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   public ten = Array(4).fill('');
   public favorites: Favorite[] = [];
   @ViewChild('loader') public loader!: TemplateRef<unknown>;
+  public showScroller = false;
   private _destroy = new Subject<null>();
+  private _topPosToStartShowing = 3000;
 
   constructor(
     private _fb: FormBuilder,
@@ -65,6 +69,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public get searchText(): string {
     return this.searchFormGroup.get('title')?.value || '';
+  }
+
+  public scrollToTop(): void {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
   public clearDate(): void {
@@ -110,12 +122,24 @@ export class HomeComponent implements OnInit, OnDestroy {
       return of(null);
     }), tap((data: MovieDetail | null) => {
       if (data) {
-        this._dialog.open(DetailDialogComponent, {data});
+        this._dialog.open(DetailDialogComponent, {data, panelClass: 'detail-dialog'});
       }
     })).subscribe();
   }
 
   public ngOnInit(): void {
+    fromEvent(window, 'scroll').pipe(tap(() => {
+        if (this.showScroller) {
+          this.showScroller = false;
+          this._cd.markForCheck();
+        }
+      }),
+      debounceTime(500), tap(() => {
+        const scrollPosition = document.documentElement.scrollTop || document.body.scrollTop || 0;
+        this.showScroller = scrollPosition >= this._topPosToStartShowing;
+        this._cd.markForCheck();
+      }), takeUntil(this._destroy)).subscribe();
+
     this.searchFormGroup.valueChanges
       .pipe(debounceTime(500), filter(() => this.searchFormGroup.valid), tap(() => {
         const titleVal = this.searchFormGroup.get('title')?.value;
