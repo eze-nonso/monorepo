@@ -20,8 +20,8 @@ export class MovieService {
   public detailLoading$ = this._detailLoading.asObservable();
   private _error = new BehaviorSubject<boolean>(false);
   public error$ = this._error.asObservable();
-  private _key = '55ecf9c4';
-  private _url = `http://www.omdbapi.com/?apikey=${this._key}`;
+  private readonly _key = '55ecf9c4';
+  private readonly _url = `https://www.omdbapi.com/?apikey=${this._key}`;
   private _paginateInfo = new BehaviorSubject<{ page: number, perPage: number, total: number }>({
     page: 0,
     perPage: 10,
