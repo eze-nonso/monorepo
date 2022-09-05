@@ -1,9 +1,0 @@
-<ul>
-  <li *ngFor="let item of favorites" fxLayout fxLayoutAlign="space-between center">
-    <div fxFlex fxLayout fxLayoutAlign="start center" fxLayoutGap="10px">
-      <img [alt]="item.title.slice(0,10)" [src]="item.image" fxFlex="50px">
-      <span>{{item.title}}</span>
-    </div>
-    <button (click)="remove.emit(item.id)" color="warn" fxFlex="min-content" mat-flat-button>Remove</button>
-  </li>
-</ul>
